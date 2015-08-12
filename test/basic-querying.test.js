@@ -620,6 +620,61 @@ describe('basic-querying', function () {
   });
 });
 
+describe('id field', function() {
+  var Todo = getSchema().define('Todo', {
+    id: {type: 'number', id: false},
+    content: {type: 'string'}
+  });
+  beforeEach(function createFixtures(done) {
+    Todo.create([
+      {content: 'Buy eggs'},
+      {content: 'Buy milk'},
+      {content: 'Buy sausages'}
+    ], done);
+  });
+  afterEach(function deleteFixtures(done) {
+    Todo.destroyAll();
+    done();
+  });
+
+  it('should not be required for create', function(done) {
+    Todo.create({content: 'Buy ham'}, function(err) {
+      should.not.exist(err);
+      done();
+    });
+  });
+
+
+  it('should not be required for delete', function(done) {
+    Todo.remove(function(err) {
+      should.not.exist(err);
+      done();
+    });
+  });
+
+  it('should not be required for find', function(done) {
+    Todo.find(function(err) {
+      should.not.exist(err);
+      done();
+    });
+  });
+
+  it('should not be required for findOne', function(done) {
+    Todo.findOne(function(err) {
+      should.not.exist(err);
+      done();
+    });
+  });
+
+
+  it('should not be required for update', function(done) {
+    Todo.update({content: 'Buy ham'}, function(err) {
+      should.not.exist(err);
+      done();
+    });
+  });
+});
+
 function seed(done) {
   var beatles = [
     {
